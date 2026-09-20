@@ -67,12 +67,35 @@ Le numéro de destination est dans `lib/site.ts` (`whatsapp`).
 
 ## Images
 
-Le portrait est affiché **en entier**, dans son ratio d'origine, sans recadrage :
-pas de `object-fit: cover`, pas de hauteur fixe, et aucun élément flottant
-par-dessus. Les badges (« 90 j », signature) sont posés sous la photo.
+Le portrait est **détouré** (fond retiré) puis posé sur le disque rouge de la
+marque — même principe dans le hero et dans la section À propos, via le
+composant `components/ui/PortraitStage.tsx`.
 
-Le portrait est servi en WebP (43 Ko) et l'image de partage Open Graph est en
-`public/og.jpg` (1200 × 630).
+Règles tenues partout :
+
+- le sujet est affiché **en entier**, dans son ratio d'origine, jamais recadré
+  (pas de `object-fit: cover`, pas de hauteur fixe) ;
+- **aucun élément ne passe devant lui** : halo, anneaux, disque et ombre sont
+  tous derrière, et la signature est posée sous l'image ;
+- proportions : le disque fait 108 % de la largeur du cadre et le sujet 103 % de
+  sa hauteur — la tête dépasse donc au-dessus du cercle, et le rouge reste
+  visible de chaque côté.
+
+### Régénérer les visuels
+
+```bash
+python scripts/make-cutout.py
+```
+
+Le script détoure `assets/source/honore-portrait.jpg` avec **rembg**
+(modèle `u2net_human_seg`), écrit `assets/honore-cutout.webp` (65 Ko) et
+recompose l'image de partage `public/og.jpg` (1200 × 630).
+
+Dépendances du script, en dehors du site :
+
+```bash
+python -m pip install rembg onnxruntime pillow
+```
 
 ## SEO
 

@@ -1,5 +1,4 @@
-import Image from "next/image";
-import portrait from "@/assets/honore-sodokin.webp";
+import { PortraitStage } from "@/components/ui/PortraitStage";
 import { Reveal } from "@/components/ui/Reveal";
 import { Container, Eyebrow } from "@/components/ui/Section";
 import { site } from "@/lib/site";
@@ -19,19 +18,14 @@ export function About() {
     >
       <Container>
         <div className="grid items-center gap-11 lg:grid-cols-[0.85fr_1.15fr] lg:gap-[70px]">
-          {/* Portrait complet, sans recadrage */}
+          {/* Portrait détouré, posé sur le disque de marque */}
           <Reveal>
             <div className="relative mx-auto w-full max-w-[420px] lg:mx-0 lg:max-w-none">
-              <div className="bg-[linear-gradient(160deg,var(--color-brand),var(--color-blood))] p-[2px]">
-                <Image
-                  src={portrait}
-                  alt={`Portrait de ${site.name}`}
-                  className="h-auto w-full"
-                />
-              </div>
-              {/* Signature posée sous la photo, sans recouvrir l'image. */}
-              <div className="mt-4 flex justify-end">
-                <span className="bg-void px-[18px] py-2 font-serif text-[26px] text-sand italic shadow-[inset_0_0_0_1px_var(--color-hairline-strong)]">
+              <PortraitStage variant="about" />
+
+              {/* Signature posée sous la photo, sans recouvrir le sujet. */}
+              <div className="mt-2 flex justify-center lg:justify-end">
+                <span className="notch-sm bg-void/85 px-[18px] py-2 font-serif text-[26px] text-sand italic shadow-[inset_0_0_0_1px_var(--color-hairline-strong)] backdrop-blur-sm">
                   {site.tagline.toLowerCase()}
                 </span>
               </div>

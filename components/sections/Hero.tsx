@@ -1,8 +1,7 @@
-import Image from "next/image";
-import portrait from "@/assets/honore-sodokin.webp";
 import { BookingButton } from "@/components/booking/BookingButton";
 import { ButtonLink } from "@/components/ui/Button";
 import { CountUp } from "@/components/ui/CountUp";
+import { PortraitStage } from "@/components/ui/PortraitStage";
 import { Container, Eyebrow } from "@/components/ui/Section";
 import { site, whatsappUrl } from "@/lib/site";
 
@@ -14,18 +13,27 @@ const proof = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-16 pb-20 md:pt-24 md:pb-28">
+    <section className="relative overflow-hidden pt-14 pb-24 md:pt-20 md:pb-28">
       {/* halo rouge */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-[260px] -right-[180px] z-0 h-[880px] w-[880px] bg-[radial-gradient(circle,rgba(225,20,51,0.28)_0%,rgba(225,20,51,0.08)_38%,transparent_66%)] blur-[10px]"
+        className="pointer-events-none absolute -top-[280px] -right-[220px] z-0 h-[900px] w-[900px] bg-[radial-gradient(circle,rgba(225,20,51,0.22)_0%,rgba(225,20,51,0.06)_40%,transparent_66%)] blur-[10px]"
       />
       {/* grille technique */}
-      <div aria-hidden="true" className="hero-grid-bg pointer-events-none absolute inset-0 z-0 opacity-50" />
+      <div
+        aria-hidden="true"
+        className="hero-grid-bg pointer-events-none absolute inset-0 z-0 opacity-50"
+      />
 
       <Container>
-        <div className="grid items-center gap-14 lg:grid-cols-[1.12fr_0.88fr] lg:gap-[74px]">
-          <div>
+        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+          <div className="relative">
+            {/* filet vertical de marque */}
+            <span
+              aria-hidden="true"
+              className="absolute top-2 -left-[34px] hidden h-[110px] w-px bg-[linear-gradient(180deg,var(--color-brand),transparent)] lg:block"
+            />
+
             <Eyebrow>{site.role}</Eyebrow>
 
             <h1 className="mt-[22px] text-[clamp(38px,5.6vw,68px)]">
@@ -69,38 +77,17 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Portrait : affiché en entier, ratio d'origine conservé, aucun recadrage */}
-          <div className="relative mx-auto w-full max-w-[460px] lg:mx-0 lg:max-w-none">
-            <div
+          {/* Mise en scène du portrait détouré */}
+          <div className="relative mx-auto w-full max-w-[520px] lg:max-w-none">
+            {/* libellé vertical */}
+            <span
               aria-hidden="true"
-              className="hatch absolute -right-6 -bottom-6 -z-10 hidden h-[180px] w-[180px] lg:block"
-            />
-            <div className="bg-[linear-gradient(160deg,var(--color-brand),var(--color-blood))] p-[2px]">
-              <div className="relative bg-void">
-                <Image
-                  src={portrait}
-                  alt={`${site.name}, ${site.role.toLowerCase()}`}
-                  priority
-                  className="h-auto w-full"
-                />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-[linear-gradient(185deg,rgba(225,20,51,0.10)_0%,transparent_34%,rgba(6,7,10,0.18)_72%,rgba(6,7,10,0.60)_100%)]"
-                />
-              </div>
-            </div>
+              className="absolute top-1/2 -left-6 hidden -translate-y-1/2 -rotate-90 font-display text-[11px] font-bold tracking-[0.34em] whitespace-nowrap text-paper/30 uppercase xl:block"
+            >
+              90 jours chrono
+            </span>
 
-            {/* Badge posé sous la photo : il ne recouvre aucune partie de l'image. */}
-            <div className="mt-4 flex justify-end">
-              <div className="notch-sm bg-void px-[22px] py-4 shadow-[inset_0_0_0_1px_var(--color-hairline-strong)]">
-                <strong className="block font-display text-[26px] leading-none font-extrabold text-flame">
-                  90 j
-                </strong>
-                <span className="text-[10.5px] tracking-[0.2em] text-paper/50 uppercase">
-                  Chrono
-                </span>
-              </div>
-            </div>
+            <PortraitStage variant="hero" priority />
           </div>
         </div>
       </Container>
