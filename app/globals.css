@@ -1,0 +1,290 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Design tokens — palette premium masculine : noir profond, rouge sang,
+   touches sable. Inspirée de la couverture « poule / aigle » d'Honoré.
+   ------------------------------------------------------------------ */
+@theme {
+  --color-void: #06070a;
+  --color-coal: #0a0c11;
+  --color-panel: #0f1219;
+  --color-brand: #e11433;
+  --color-flame: #ff2e4d;
+  --color-blood: #7e0a1f;
+  --color-sand: #e6c79a;
+  --color-paper: #f7f8fa;
+
+  --color-hairline: rgba(255, 255, 255, 0.09);
+  --color-hairline-strong: rgba(255, 255, 255, 0.16);
+}
+
+@theme inline {
+  --font-display: var(--font-sora), "Inter", sans-serif;
+  --font-sans: var(--font-inter), -apple-system, "Segoe UI", sans-serif;
+  --font-serif: var(--font-instrument), Georgia, serif;
+}
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  font-size: 16.5px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* grain fin sur toute la page */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-sand);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+/* ------------------------------------------------------------------
+   Formes angulaires (rappel du motif hexagonal)
+   ------------------------------------------------------------------ */
+.notch-sm {
+  clip-path: polygon(
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%,
+    0 12px
+  );
+}
+
+.notch {
+  clip-path: polygon(
+    18px 0,
+    100% 0,
+    100% calc(100% - 18px),
+    calc(100% - 18px) 100%,
+    0 100%,
+    0 18px
+  );
+}
+
+.notch-lg {
+  clip-path: polygon(
+    26px 0,
+    100% 0,
+    100% calc(100% - 26px),
+    calc(100% - 26px) 100%,
+    0 100%,
+    0 26px
+  );
+}
+
+.hex {
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+
+/* ------------------------------------------------------------------
+   Texte dégradé
+   ------------------------------------------------------------------ */
+.text-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--color-flame),
+    var(--color-brand) 45%,
+    var(--color-sand)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-cold {
+  background: linear-gradient(110deg, #fff, var(--color-flame));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* mot barré du hero */
+.strike {
+  position: relative;
+  color: rgba(247, 248, 250, 0.42);
+}
+.strike::after {
+  content: "";
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  top: 54%;
+  height: 3px;
+  background: var(--color-brand);
+  transform: rotate(-2.5deg);
+}
+
+/* ------------------------------------------------------------------
+   Grille et halos du hero
+   ------------------------------------------------------------------ */
+.hero-grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 76px 76px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 60% at 50% 30%,
+    #000 30%,
+    transparent 78%
+  );
+  mask-image: radial-gradient(
+    ellipse 80% 60% at 50% 30%,
+    #000 30%,
+    transparent 78%
+  );
+}
+
+.hatch {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.14) 0 1px,
+    transparent 1px 9px
+  );
+}
+
+/* ------------------------------------------------------------------
+   Bandeau défilant
+   ------------------------------------------------------------------ */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 34s linear infinite;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Révélation au scroll
+   Le contenu est visible par défaut. JavaScript « arme » uniquement les
+   éléments hors écran au chargement, puis les révèle au scroll : sans JS,
+   ou si le script échoue, aucun contenu ne peut rester masqué.
+   ------------------------------------------------------------------ */
+.reveal.armed {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.7, 0.3, 1),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.reveal.armed.shown {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal.armed {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   FAQ native (<details>)
+   ------------------------------------------------------------------ */
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+}
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px;
+  color: var(--color-brand);
+}
+.faq-item[open] summary::after {
+  content: "−";
+}
+
+/* ------------------------------------------------------------------
+   Modale de réservation
+   ------------------------------------------------------------------ */
+dialog::backdrop {
+  background: rgba(3, 4, 6, 0.82);
+  backdrop-filter: blur(6px);
+}
+
+dialog.booking-dialog {
+  max-width: 620px;
+  width: calc(100% - 32px);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: var(--color-paper);
+}
+
+.field {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--color-hairline-strong);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  padding: 13px 14px;
+  border-radius: 0;
+}
+
+.field:focus {
+  outline: none;
+  border-color: var(--color-brand);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.field option {
+  background: var(--color-panel);
+  color: var(--color-paper);
+}
