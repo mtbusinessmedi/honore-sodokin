@@ -1,4 +1,5 @@
 import Image from "next/image";
+import portrait from "@/assets/honore-sodokin.webp";
 import { Reveal } from "@/components/ui/Reveal";
 import { Container, Eyebrow } from "@/components/ui/Section";
 import { site } from "@/lib/site";
@@ -23,10 +24,8 @@ export function About() {
             <div className="relative mx-auto w-full max-w-[420px] lg:mx-0 lg:max-w-none">
               <div className="bg-[linear-gradient(160deg,var(--color-brand),var(--color-blood))] p-[2px]">
                 <Image
-                  src="/honore-sodokin.webp"
+                  src={portrait}
                   alt={`Portrait de ${site.name}`}
-                  width={1024}
-                  height={1038}
                   className="h-auto w-full"
                 />
               </div>

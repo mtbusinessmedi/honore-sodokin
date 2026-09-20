@@ -1,4 +1,5 @@
 import Image from "next/image";
+import portrait from "@/assets/honore-sodokin.webp";
 import { BookingButton } from "@/components/booking/BookingButton";
 import { ButtonLink } from "@/components/ui/Button";
 import { CountUp } from "@/components/ui/CountUp";
@@ -77,10 +78,8 @@ export function Hero() {
             <div className="bg-[linear-gradient(160deg,var(--color-brand),var(--color-blood))] p-[2px]">
               <div className="relative bg-void">
                 <Image
-                  src="/honore-sodokin.webp"
+                  src={portrait}
                   alt={`${site.name}, ${site.role.toLowerCase()}`}
-                  width={1024}
-                  height={1038}
                   priority
                   className="h-auto w-full"
                 />
